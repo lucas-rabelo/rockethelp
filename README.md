@@ -25,5 +25,5 @@ A aplicação para gerenciar em tempo real solicitações de manutenção e supo
 
 ## Contato 
  
-[![Linkedin Badge](https://img.shields.io/badge/-Rodrigo%20Gonçalves%20Santana-6633cc?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/lucasrabelos/)](https://www.linkedin.com/in/lucasrabelos/) 
+[![Linkedin Badge](https://img.shields.io/badge/-Lucas%20Rabelo%20de%20Souza-6633cc?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/lucasrabelos/)](https://www.linkedin.com/in/lucasrabelos/) 
 </div>
