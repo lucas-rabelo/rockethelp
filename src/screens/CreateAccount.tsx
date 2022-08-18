@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { VStack, Heading, Icon, useTheme } from 'native-base';
 import { Envelope, Key } from 'phosphor-react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // assets
 import Logo from '../assets/logo_primary.svg';
@@ -10,9 +11,8 @@ import { Button } from '../components/Button';
 
 // components
 import { Input } from '../components/Input';
-import { useNavigation } from '@react-navigation/native';
 
-export function SignIn() {
+export function CreateAccount() {
 
     const { colors } = useTheme();
     const navigation = useNavigation();
@@ -20,38 +20,43 @@ export function SignIn() {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
 
-    function handleSignIn() {
+    function handleCreateAccount() {
         if (!email || !password) {
-            return Alert.alert('Entrar', 'Informe e-mail e senha.');
+            return Alert.alert('Cadastrar', 'Informe e-mail e senha.');
+        }
+
+        if (password !== confirm) {
+            return Alert.alert('Cadastrar', 'As senhas não conferem.');
         }
 
         setIsLoading(true);
 
         auth()
-            .signInWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(email, password)
             .catch((error) => {
                 console.log(error);
                 setIsLoading(false);
 
                 if (error.code === 'auth/invalid-email') {
-                    return Alert.alert('Entrar', 'E-mail inválido.')
+                    return Alert.alert('Cadastrar', 'E-mail inválido.')
                 }
 
-                if (error.code === 'auth/wrong-password') {
-                    return Alert.alert('Entrar', 'E-mail ou senha inválida.')
+                if (error.code === 'auth/email-already-in-use') {
+                    return Alert.alert('Cadastrar', 'E-mail já está em uso.')
                 }
 
-                if (error.code === 'auth/user-not-found') {
-                    return Alert.alert('Entrar', 'E-mail ou senha inválida.');
+                if (error.code === 'auth/weak-password') {
+                    return Alert.alert('Cadastrar', 'Senha deve conter 6 caracteres/digitos.')
                 }
 
-                return Alert.alert('Entrar', 'Não foi possível acessar.')
+                return Alert.alert('Entrar', 'Não foi possível se cadastrar.')
             });
     }
 
-    function handleCreateAccount() {
-        navigation.navigate("create");
+    function handleGoBack() {
+        navigation.navigate('signin');
     }
 
     return (
@@ -70,28 +75,36 @@ export function SignIn() {
             />
 
             <Input
-                mb={8}
+                mb={4}
                 placeholder="Senha"
                 InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
                 secureTextEntry
                 onChangeText={setPassword}
             />
 
+            <Input
+                mb={8}
+                placeholder="Confirmar senha"
+                InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} ml={4} />}
+                secureTextEntry
+                onChangeText={setConfirm}
+            />
+
             <Button
-                title="Entrar"
+                title="Salvar"
                 w="full"
-                onPress={handleSignIn}
+                onPress={handleCreateAccount}
                 isLoading={isLoading}
             />
 
             <Button
-                title="Cadastrar"
+                title="Voltar"
                 variant="outline"
                 bg="gray.700"
                 borderColor="green.700"
                 w="full"
                 mt={5}
-                onPress={handleCreateAccount}
+                onPress={handleGoBack}
                 isLoading={isLoading}
             />
         </VStack>

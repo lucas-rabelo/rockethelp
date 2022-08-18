@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { VStack } from 'native-base';
+import { VStack, Box } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import firestore from '@react-native-firebase/firestore';
@@ -8,6 +8,9 @@ import firestore from '@react-native-firebase/firestore';
 import { Header } from '../components/Header';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+
+// DTO
+import { OrderFirestoreDTO } from '../DTOs/OrderDTO';
 
 export function Register() {
 
@@ -18,42 +21,42 @@ export function Register() {
     const [description, setDescription] = useState('');
 
     function handleNewOrderRegister() {
-        if(!patrimony || !description) {
+        if (!patrimony || !description) {
             return Alert.alert('Registrar', 'Preencha todos os campos.');
         }
 
         setIsLoading(true);
 
         firestore()
-        .collection('orders')
-        .add({
-            patrimony,
-            description,
-            status: 'open',
-            created_at: firestore.FieldValue.serverTimestamp()
-        })
-        .then(() => {
-            Alert.alert("Registrando", 'Solicitação registrada com sucesso.');
-            navigation.goBack();
-        })
-        .catch((error) => {
-            console.log(error);
-            setIsLoading(false);
-            return Alert.alert('Solicitação', 'Não foi possível registar o pedido.');
-        })
-    } 
+            .collection('orders')
+            .add({
+                patrimony,
+                description,
+                status: 'open',
+                created_at: firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                Alert.alert("Registrando", 'Solicitação registrada com sucesso.');
+                navigation.goBack();
+            })
+            .catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+                return Alert.alert('Solicitação', 'Não foi possível registar o pedido.');
+            })
+    }
 
     return (
         <VStack flex={1} p={6} bg="gray.600">
-            <Header title="Nova solicitação"/>
+            <Header title="Nova solicitação" />
 
-            <Input 
+            <Input
                 placeholder="Número do patrimônio"
                 mt={4}
                 onChangeText={setPatrimony}
             />
 
-            <Input 
+            <Input
                 placeholder="Descrição do problema"
                 flex={1}
                 mt={5}
@@ -62,7 +65,7 @@ export function Register() {
                 onChangeText={setDescription}
             />
 
-            <Button 
+            <Button
                 title="Cadastrar"
                 mt={5}
                 isLoading={isLoading}

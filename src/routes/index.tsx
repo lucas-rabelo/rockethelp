@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { SignIn } from '../screens/SignIn';
 import { AppRoutes } from './app.routes';
+import { AuthenticationRoutes } from './authentication.routes';
 
 import { Loading } from '../components/Loading';
 
@@ -14,21 +15,21 @@ export function Routes() {
 
     useEffect(() => {
         const subscriber = auth()
-        .onAuthStateChanged( response => {
-            setUser(response);
-            setIsLoading(false);
-        })
+            .onAuthStateChanged(response => {
+                setUser(response);
+                setIsLoading(false);
+            })
 
         return subscriber;
     }, []);
 
-    if( isLoading ) {
+    if (isLoading) {
         return <Loading />
     }
 
-    return(
+    return (
         <NavigationContainer>
-            { user ? <AppRoutes /> : <SignIn /> }
+            {user ? <AppRoutes /> : <AuthenticationRoutes />}
         </NavigationContainer>
     );
 }

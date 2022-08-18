@@ -25,7 +25,7 @@ export function Header({ title, ...rest }: Props) {
             pt={12}
             {...rest}
         >
-            <IconButton 
+            <IconButton
                 icon={<CaretLeft color={colors.gray[200]} size={24} />}
                 onPress={handleGoBack}
             />
@@ -33,6 +33,6 @@ export function Header({ title, ...rest }: Props) {
             <Heading color="gray.100" textAlign="center" fontSize="lg" flex={1} ml={-6}>
                 {title}
             </Heading>
-        </HStack>
+        </HStack >
     );
 }
